@@ -7,7 +7,7 @@ import { OrbitControls, useGLTF } from '@react-three/drei'
 
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
-    const logo = useGLTF('AT-Logo.gltf')
+    const logo = useGLTF('/AT-Logo.gltf')
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
