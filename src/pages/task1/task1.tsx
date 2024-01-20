@@ -21,8 +21,7 @@ export const Task1Canvas = () => {
 export const Task1 = () => {
     return (
         <TaskTemplate
-            title={'Task 1'}
-            subTitle={'Rendering a cube'}
+            title={'Rendering a cube'}
             description={
                 <>
                     <p>

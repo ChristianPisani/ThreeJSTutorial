@@ -27,8 +27,7 @@ const Task2Canvas = () => {
 export const Task2 = () => {
     return (
         <TaskTemplate
-            title={'Task 2'}
-            subTitle={'Lighting'}
+            title={'Lighting'}
             description={
                 <>
                     <p>

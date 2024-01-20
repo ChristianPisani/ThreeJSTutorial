@@ -1,11 +1,8 @@
 ﻿import { styles } from '../styles.ts'
 import { FC, ReactNode, useState } from 'react'
-import { Html } from '@react-three/drei'
-import { Canvas } from '@react-three/fiber'
 
 type TaskTemplateType = {
     title: string
-    subTitle: string
     description: ReactNode
     canvasTitle: string
     canvasDescription: string
@@ -15,7 +12,6 @@ type TaskTemplateType = {
 
 export const TaskTemplate: FC<TaskTemplateType> = ({
     title,
-    subTitle,
     description,
     canvasDescription,
     canvasTitle,
@@ -31,7 +27,7 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
                     <h1
                         className={`${styles.heroHeadText} text-white font-bold`}
                     >
-                        <span className={'text-[#915eff]'}>{subTitle}</span>
+                        <span className={'text-[#915eff]'}>{title}</span>
                     </h1>
 
                     <div className={'prose prose-invert'}>{description}</div>

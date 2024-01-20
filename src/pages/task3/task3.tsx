@@ -2,7 +2,7 @@ import { TaskTemplate } from '../../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import Loader from '../../components/Loader.tsx'
-import { Group, Mesh } from 'three'
+import { Group } from 'three'
 
 const BoxModel = () => {
     const boxRef = useRef<Group>(null!)
@@ -56,8 +56,7 @@ const Task3Canvas = () => {
 export const Task3 = () => {
     return (
         <TaskTemplate
-            title={'Task 3'}
-            subTitle={'Animate it!'}
+            title={'Animate it!'}
             description={
                 <>
                     <p>

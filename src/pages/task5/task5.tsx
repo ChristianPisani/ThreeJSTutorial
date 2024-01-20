@@ -1,14 +1,16 @@
 import { TaskTemplate } from '../../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import Loader from '../../components/Loader.tsx'
-import { Color, Group, Mesh, MeshPhysicalMaterial } from 'three'
+import { Color, Group, MeshPhysicalMaterial } from 'three'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
     const logo = useGLTF('AT-Logo.gltf')
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const material = logo.scene.children[0].material
     const originalColor = material.color
     const materialRef = useRef<MeshPhysicalMaterial>(material)
@@ -54,8 +56,7 @@ const Task5Canvas = () => {
 export const Task5 = () => {
     return (
         <TaskTemplate
-            title={'Task 5'}
-            subTitle={'Make it interactive!'}
+            title={'Make it interactive!'}
             description={
                 <>
                     <p>Now we need to make it interactive.</p>

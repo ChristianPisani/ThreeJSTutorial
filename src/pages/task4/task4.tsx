@@ -2,7 +2,7 @@ import { TaskTemplate } from '../../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import Loader from '../../components/Loader.tsx'
-import { Group, Mesh } from 'three'
+import { Group } from 'three'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 
 const LogoModel = () => {
@@ -42,8 +42,7 @@ const Task4Canvas = () => {
 export const Task4 = () => {
     return (
         <TaskTemplate
-            title={'Task 4'}
-            subTitle={'Add a model!'}
+            title={'Add a model!'}
             description={
                 <>
                     <p>
