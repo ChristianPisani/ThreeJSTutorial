@@ -1,5 +1,6 @@
 ﻿import { styles } from '../styles.ts'
-import { FC, ReactNode, useState } from 'react'
+import { FC, ReactNode, useRef, useState } from 'react'
+import { Stats } from '@react-three/drei'
 
 type TaskTemplateType = {
     title: string
@@ -19,6 +20,7 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
     taskCanvas,
 }) => {
     const [index, setIndex] = useState(0)
+    const canvasContainer = useRef<HTMLDivElement>(null!)
 
     return (
         <div className={'flex flex-col gap-12'}>
@@ -55,11 +57,16 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
                     </div>
                     <p>{canvasDescription}</p>
                     <div
+                        ref={canvasContainer}
                         key={index}
                         className={
-                            'border-fuchsia-200 border-2 bg-opacity-30 bg-indigo-950 rounded-2xl h-96'
+                            'border-fuchsia-200 border-2 bg-opacity-30 bg-indigo-950 rounded-2xl h-96 relative'
                         }
                     >
+                        <Stats
+                            parent={canvasContainer}
+                            className={'absoluteImportant ml-2 mt-3'}
+                        />
                         {taskCanvas}
                     </div>
                 </div>

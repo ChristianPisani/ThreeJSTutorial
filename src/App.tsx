@@ -6,6 +6,8 @@ import { Task2 } from './pages/task2/task2.tsx'
 import { Task3 } from './pages/task3/task3.tsx'
 import { Task4 } from './pages/task4/task4.tsx'
 import { Task5 } from './pages/task5/task5.tsx'
+import { Task6 } from './pages/task6/task6.tsx'
+import { Task7 } from './pages/task7/task7.tsx'
 
 function App() {
     const router = createBrowserRouter([
@@ -49,6 +51,14 @@ function App() {
                 {
                     path: 'task5',
                     element: <Task5 />,
+                },
+                {
+                    path: 'task6',
+                    element: <Task6 />,
+                },
+                {
+                    path: 'task7',
+                    element: <Task7 />,
                 },
             ],
         },
