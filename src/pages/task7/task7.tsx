@@ -3,6 +3,7 @@ import { Suspense, useEffect, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import Loader from '../../components/Loader.tsx'
 import {
+    Color,
     Group,
     InstancedMesh,
     MeshPhysicalMaterial,
@@ -10,7 +11,7 @@ import {
     SphereGeometry,
     Vector3,
 } from 'three'
-import { OrbitControls, Stats, useGLTF } from '@react-three/drei'
+import { OrbitControls, Sky, Stats, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
 import { useBeforeUnload } from 'react-router-dom'
@@ -60,15 +61,18 @@ const LogoModel = () => {
     const position = new THREE.Vector3()
 
     const geometry = new SphereGeometry()
-    geometry.scale(0.01, 0.01, 0.01)
+    geometry.scale(0.005, 0.005, 0.005)
     const material = new MeshPhysicalMaterial()
+    material.roughness = 0.1
+    material.color = new Color('blue')
+    material.metalness = 1
     const tempObject = new Object3D()
 
     const particles = []
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < numberOfParticles; i++) {
         sampler.sample(position)
 
-        const distance = 10
+        const distance = 20
 
         const generatePointAtDistance = () =>
             Math.random() * distance - distance / 2
@@ -118,6 +122,7 @@ const Task7Canvas = () => {
             >
                 <Suspense fallback={<Loader />}>
                     <OrbitControls />
+                    <Sky />
                     <ambientLight intensity={4} />
                     <directionalLight intensity={1} position={[0, 0, 10]} />
                     <LogoModel />
