@@ -30,40 +30,6 @@ import {
     Resolution,
 } from 'postprocessing'
 
-/*const LogoModelSimpleApproach = () => {
-    const ref = useRef<Group>(null!)
-    const logo = useGLTF('/AT-Logo.gltf')
-    console.log(logo)
-
-    const sampler = new MeshSurfaceSampler(
-        logo.scene.children[0] as Mesh
-    ).build()
-    const position = new THREE.Vector3()
-
-    const particles = []
-    for (let i = 0; i < 10000; i++) {
-        sampler.sample(position)
-
-        particles.push(
-            <mesh
-                position={[position.x, position.y, position.z]}
-                scale={[0.01, 0.01, 0.01]}
-            >
-                <sphereGeometry />
-                <meshPhysicalMaterial color={'red'} roughness={0.1} />
-            </mesh>
-        )
-    }
-
-    console.log({ particles })
-
-    return (
-        <group ref={ref} position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
-            {particles}
-        </group>
-    )
-}*/
-
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
     const instanceRef = useRef<InstancedMesh>(null!)
@@ -143,16 +109,15 @@ const LogoModel = () => {
                 <GodRays
                     sun={instanceRef}
                     blendFunction={BlendFunction.SCREEN}
-                    samples={40}
+                    samples={100}
                     density={0.99}
-                    decay={0.99}
+                    decay={0.9}
                     weight={0.75}
-                    exposure={0.05}
+                    exposure={0.1}
                     clampMax={1}
                     width={Resolution.AUTO_SIZE}
                     height={Resolution.AUTO_SIZE}
                     kernelSize={KernelSize.LARGE}
-                    blur={true}
                 />
                 <Noise opacity={0.025} />
                 <Vignette darkness={0.75} />
@@ -172,7 +137,7 @@ const LogoModel = () => {
     )
 }
 
-export const Task7Canvas = () => {
+export const TaskPostProcessing = () => {
     return (
         <Canvas
             camera={{
