@@ -1,24 +1,9 @@
-import { TaskTemplate } from '../../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import Loader from '../../components/Loader.tsx'
-import {
-    Color,
-    Group,
-    Material,
-    Mesh,
-    MeshPhysicalMaterial,
-    Vector2,
-    Vector3,
-} from 'three'
-import { Environment, OrbitControls, Sky, useGLTF } from '@react-three/drei'
-import {
-    Bloom,
-    EffectComposer,
-    GodRays,
-    Vignette,
-} from '@react-three/postprocessing'
-import { BlendFunction, KernelSize, Resolution } from 'postprocessing'
+import Loader from '../components/Loader.tsx'
+import { Group, Mesh, MeshPhysicalMaterial, Vector3 } from 'three'
+import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
+import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
 
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
@@ -29,16 +14,13 @@ const LogoModel = () => {
 
     const { scene } = useGLTF('/Card.gltf')
 
-    const body = scene.children.find((c) => c.name === 'Body')
-    const button = scene.children.find((c) => c.name === 'Button')
-    const buyText = scene.children.find((c) => c.name === 'Buy')
-    const image = scene.children.find((c) => c.name === 'CardImage')
-    const description = scene.children.find((c) => c.name === 'Description')
-    const arrow = scene.children.find((c) => c.name === 'Arrrowq')
-    const price = scene.children.find((c) => c.name === 'Price')
-    const title = scene.children.find((c) => c.name === 'Title')
-    const difficulty = scene.children.find((c) => c.name === 'Difficulty')
-    const priceBody = scene.children.find((c) => c.name === 'PriceBody')
+    const body = scene.children.find((c) => c.name === 'Body')! as Group
+    const button = scene.children.find((c) => c.name === 'Button')! as Mesh
+    const buyText = scene.children.find((c) => c.name === 'Buy')! as Mesh
+    const description = scene.children.find(
+        (c) => c.name === 'Description'
+    ) as Mesh
+    const title = scene.children.find((c) => c.name === 'Title') as Mesh
 
     useFrame(({ clock }) => {
         const elapsedTime = clock.getElapsedTime()
@@ -74,8 +56,6 @@ const LogoModel = () => {
         }
     })
 
-    console.log({ scene, body, description, arrow, price, title, difficulty })
-
     return (
         <>
             <group
@@ -84,17 +64,20 @@ const LogoModel = () => {
                 rotation={[Math.PI / 2, 0, 0]}
             >
                 <mesh
-                    geometry={body.children[0].geometry}
+                    geometry={(body.children[0] as Mesh).geometry}
                     castShadow
                     receiveShadow
                 >
                     {/* Image texture, don't change this */}
-                    <meshPhysicalMaterial {...body.children[0].material} />
+                    <meshPhysicalMaterial
+                        {...((body.children[0] as Mesh)
+                            .material as MeshPhysicalMaterial)}
+                    />
                 </mesh>
 
                 {/* Card body */}
                 <mesh
-                    geometry={body.children[1].geometry}
+                    geometry={(body.children[1] as Mesh).geometry}
                     castShadow
                     receiveShadow
                 >
@@ -137,7 +120,7 @@ const LogoModel = () => {
                     />
                     <mesh
                         ref={buyTextRef}
-                        geometry={buyText?.geometry}
+                        geometry={buyText.geometry}
                         castShadow
                         receiveShadow
                     >
@@ -166,7 +149,7 @@ const LogoModel = () => {
 
 const shadowCameraBounds = 0.5
 
-const Task6Canvas = () => {
+export const Task6Canvas = () => {
     return (
         <Canvas
             shadows={'soft'}
@@ -197,34 +180,5 @@ const Task6Canvas = () => {
                 />
             </Suspense>
         </Canvas>
-    )
-}
-
-export const Task6 = () => {
-    return (
-        <TaskTemplate
-            title={'Make it interactive!'}
-            description={
-                <>
-                    <p>Now we need to make it interactive.</p>
-                    <p>
-                        Try to make the logo change color and size when hovered.
-                    </p>
-                    <p>
-                        You're going to need to dig a bit in the gltf object for
-                        this one
-                    </p>
-                </>
-            }
-            canvasDescription={''}
-            canvasTitle={'Do something to me!'}
-            tips={[
-                'Look into the scene object in the gltf',
-                'You can store a reference to a material',
-                'Take a look at pointer events in three fiber',
-                'Store the original color of the object material',
-            ]}
-            taskCanvas={<Task6Canvas />}
-        />
     )
 }

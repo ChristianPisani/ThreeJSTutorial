@@ -1,7 +1,7 @@
-import { TaskTemplate } from '../../components/task-template.tsx'
+import { TaskTemplate } from '../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import Loader from '../../components/Loader.tsx'
+import Loader from '../components/Loader.tsx'
 import { Group } from 'three'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 

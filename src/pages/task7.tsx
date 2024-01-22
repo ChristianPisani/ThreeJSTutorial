@@ -1,21 +1,18 @@
-import { TaskTemplate } from '../../components/task-template.tsx'
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import Loader from '../../components/Loader.tsx'
+import Loader from '../components/Loader.tsx'
 import {
     BoxGeometry,
     Color,
     Group,
     InstancedMesh,
     Mesh,
-    MeshBasicMaterial,
     MeshPhysicalMaterial,
     Object3D,
-    SphereGeometry,
     Vector2,
     Vector3,
 } from 'three'
-import { OrbitControls, Sky, Stats, useGLTF } from '@react-three/drei'
+import { OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
 import {
@@ -32,14 +29,15 @@ import {
     KernelSize,
     Resolution,
 } from 'postprocessing'
-import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
 
-const LogoModelSimpleApproach = () => {
+/*const LogoModelSimpleApproach = () => {
     const ref = useRef<Group>(null!)
     const logo = useGLTF('/AT-Logo.gltf')
     console.log(logo)
 
-    const sampler = new MeshSurfaceSampler(logo.scene.children[0]).build()
+    const sampler = new MeshSurfaceSampler(
+        logo.scene.children[0] as Mesh
+    ).build()
     const position = new THREE.Vector3()
 
     const particles = []
@@ -64,7 +62,7 @@ const LogoModelSimpleApproach = () => {
             {particles}
         </group>
     )
-}
+}*/
 
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
@@ -75,7 +73,9 @@ const LogoModel = () => {
     const logo = useGLTF('/AT-Logo.gltf')
     console.log(logo)
 
-    const sampler = new MeshSurfaceSampler(logo.scene.children[0]).build()
+    const sampler = new MeshSurfaceSampler(
+        logo.scene.children[0] as Mesh
+    ).build()
     const position = new THREE.Vector3()
 
     const geometry = new BoxGeometry()
@@ -87,7 +87,7 @@ const LogoModel = () => {
     material.emissive = new Color('lightblue')
     const tempObject = new Object3D()
 
-    const particles = []
+    const particles: { start: Vector3; current: Vector3; end: Vector3 }[] = []
     for (let i = 0; i < numberOfParticles; i++) {
         sampler.sample(position)
 
@@ -101,7 +101,7 @@ const LogoModel = () => {
             generatePointAtDistance(),
             generatePointAtDistance()
         )
-        const end = { ...position }
+        const end = new Vector3(position.x, position.y, position.z)
 
         particles.push({ start, current: start, end })
     }
@@ -114,7 +114,7 @@ const LogoModel = () => {
                 particle.end.z
             )
 
-            particle.current = particle.current.lerp(end, 0.01)
+            particle.current = particle.current.lerp(end, 0.04)
 
             tempObject.position.set(
                 particle.current.x,
@@ -125,15 +125,6 @@ const LogoModel = () => {
             instanceRef.current?.setMatrixAt(index, tempObject.matrix)
             instanceRef.current.instanceMatrix.needsUpdate = true
         })
-
-        const isParticlesLoaded =
-            particles.every((p) => p.current.distanceTo(p.end) < 0.1) ?? false
-
-        ref.current.children[0].children[0].material.opacity = 0
-        ref.current.children[0].children[0].material.transparent = true
-
-        if (isParticlesLoaded)
-            ref.current.children[0].children[0].material.opacity = 1
     })
 
     return (
@@ -147,9 +138,6 @@ const LogoModel = () => {
                     ref={instanceRef}
                     args={[geometry, material, numberOfParticles]}
                 ></instancedMesh>
-            </group>
-            <group ref={ref}>
-                <primitive object={logo.scene}></primitive>
             </group>
             <EffectComposer>
                 <GodRays
@@ -184,16 +172,7 @@ const LogoModel = () => {
     )
 }
 
-const Task7Canvas = () => {
-    const sunMesh = new Mesh(
-        new SphereGeometry(0.1),
-        new MeshBasicMaterial({
-            color: '#CC8C39',
-            transparent: true,
-            opacity: 1,
-        })
-    )
-
+export const Task7Canvas = () => {
     return (
         <Canvas
             camera={{
@@ -207,44 +186,5 @@ const Task7Canvas = () => {
                 <LogoModel />
             </Suspense>
         </Canvas>
-    )
-}
-
-export const Task7 = () => {
-    return (
-        <TaskTemplate
-            title={'Better performance with instances!'}
-            description={
-                <>
-                    <p>
-                        Rendering a lot of objects can get expensive fast. The
-                        FPS is not very high, so we need to make it faster.
-                    </p>
-                    <p>We can do this by leveraging instanced rendering!</p>
-                    <p>
-                        Try to render the logo with as many points as possible
-                        without the FPS dropping below 30. It should render well
-                        with at least 10 000 particles (depending on your
-                        computer)
-                    </p>
-                    <p>
-                        <i className={'text-amber-400 font-bold'}>
-                            Additional challenge:
-                        </i>{' '}
-                        Animate the particles spawning in. Tip: Use the
-                        Vector3.lerp function from three
-                    </p>
-                </>
-            }
-            canvasDescription={''}
-            canvasTitle={"I'm so sloooow! Satisfy my need for speed!"}
-            tips={[
-                'Instanced objects render quite differently from normal',
-                'You need to allocate the number of objects for a single instancedMesh',
-                'Instead of rendering multiple instancedMeshes, you are simply changing the matrices at indexes in the instancedMesh',
-                'Take a look at the setMatrixAt function',
-            ]}
-            taskCanvas={<Task7Canvas />}
-        />
     )
 }

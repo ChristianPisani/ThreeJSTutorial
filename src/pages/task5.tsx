@@ -1,7 +1,6 @@
-import { TaskTemplate } from '../../components/task-template.tsx'
 import { Suspense, useRef } from 'react'
 import { Canvas } from '@react-three/fiber'
-import Loader from '../../components/Loader.tsx'
+import Loader from '../components/Loader.tsx'
 import { Color, Group, MeshPhysicalMaterial } from 'three'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 
@@ -36,7 +35,7 @@ const LogoModel = () => {
     )
 }
 
-const Task5Canvas = () => {
+export const Task5Canvas = () => {
     return (
         <Canvas
             camera={{
@@ -50,34 +49,5 @@ const Task5Canvas = () => {
                 <LogoModel />
             </Suspense>
         </Canvas>
-    )
-}
-
-export const Task5 = () => {
-    return (
-        <TaskTemplate
-            title={'Make it interactive!'}
-            description={
-                <>
-                    <p>Now we need to make it interactive.</p>
-                    <p>
-                        Try to make the logo change color and size when hovered.
-                    </p>
-                    <p>
-                        You're going to need to dig a bit in the gltf object for
-                        this one
-                    </p>
-                </>
-            }
-            canvasDescription={''}
-            canvasTitle={'Do something to me!'}
-            tips={[
-                'Look into the scene object in the gltf',
-                'You can store a reference to a material',
-                'Take a look at pointer events in three fiber',
-                'Store the original color of the object material',
-            ]}
-            taskCanvas={<Task5Canvas />}
-        />
     )
 }
