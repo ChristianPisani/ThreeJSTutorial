@@ -1,6 +1,14 @@
 ﻿import { styles } from '../styles.ts'
 import { FC, ReactNode, useRef, useState } from 'react'
-import { Stats } from '@react-three/drei'
+import {
+    Html,
+    OrbitControls,
+    PerspectiveCamera,
+    Stats,
+    Text3D,
+} from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { DoubleSide, MeshPhysicalMaterial } from 'three'
 
 type TaskTemplateType = {
     title: string

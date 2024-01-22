@@ -1,5 +1,5 @@
 import { TaskTemplate } from '../../components/task-template.tsx'
-import { Suspense, useEffect, useRef } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import Loader from '../../components/Loader.tsx'
 import {
@@ -32,6 +32,7 @@ import {
     KernelSize,
     Resolution,
 } from 'postprocessing'
+import { is } from '@react-three/fiber/dist/declarations/src/core/utils'
 
 const LogoModelSimpleApproach = () => {
     const ref = useRef<Group>(null!)
@@ -69,7 +70,7 @@ const LogoModel = () => {
     const ref = useRef<Group>(null!)
     const instanceRef = useRef<InstancedMesh>(null!)
 
-    const numberOfParticles = 100000
+    const numberOfParticles = 10000
 
     const logo = useGLTF('/AT-Logo.gltf')
     console.log(logo)
@@ -90,7 +91,7 @@ const LogoModel = () => {
     for (let i = 0; i < numberOfParticles; i++) {
         sampler.sample(position)
 
-        const distance = 20
+        const distance = 100
 
         const generatePointAtDistance = () =>
             Math.random() * distance - distance / 2
@@ -107,7 +108,13 @@ const LogoModel = () => {
 
     useFrame(() => {
         particles.forEach((particle, index) => {
-            particle.current = particle.current.lerp(particle.end, 0.05)
+            const end = new Vector3(
+                particle.end.x,
+                particle.end.y,
+                particle.end.z
+            )
+
+            particle.current = particle.current.lerp(end, 0.01)
 
             tempObject.position.set(
                 particle.current.x,
@@ -118,6 +125,15 @@ const LogoModel = () => {
             instanceRef.current?.setMatrixAt(index, tempObject.matrix)
             instanceRef.current.instanceMatrix.needsUpdate = true
         })
+
+        const isParticlesLoaded =
+            particles.every((p) => p.current.distanceTo(p.end) < 0.1) ?? false
+
+        ref.current.children[0].children[0].material.opacity = 0
+        ref.current.children[0].children[0].material.transparent = true
+
+        if (isParticlesLoaded)
+            ref.current.children[0].children[0].material.opacity = 1
     })
 
     return (
@@ -132,9 +148,9 @@ const LogoModel = () => {
                     args={[geometry, material, numberOfParticles]}
                 ></instancedMesh>
             </group>
-            {/*<group ref={ref}>
+            <group ref={ref}>
                 <primitive object={logo.scene}></primitive>
-            </group>*/}
+            </group>
             <EffectComposer>
                 <GodRays
                     sun={instanceRef}
