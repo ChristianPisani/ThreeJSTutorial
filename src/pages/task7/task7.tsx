@@ -70,7 +70,7 @@ const LogoModel = () => {
     const ref = useRef<Group>(null!)
     const instanceRef = useRef<InstancedMesh>(null!)
 
-    const numberOfParticles = 10000
+    const numberOfParticles = 20000
 
     const logo = useGLTF('/AT-Logo.gltf')
     console.log(logo)
@@ -79,7 +79,7 @@ const LogoModel = () => {
     const position = new THREE.Vector3()
 
     const geometry = new BoxGeometry()
-    geometry.scale(0.01, 0.01, 0.01)
+    geometry.scale(0.02, 0.02, 0.02)
     const material = new MeshPhysicalMaterial()
     material.roughness = 0.2
     material.color = new Color('blue')
@@ -176,7 +176,7 @@ const LogoModel = () => {
                 />
                 <Glitch
                     mode={GlitchMode.SPORADIC}
-                    delay={new Vector2(0.5, 1)}
+                    delay={new Vector2(5, 10)}
                     duration={new Vector2(0.5, 0.75)}
                 />
             </EffectComposer>
