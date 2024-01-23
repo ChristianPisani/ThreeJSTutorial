@@ -10,12 +10,12 @@ function App() {
             path: '/',
             element: (
                 <div
-                    className={`min-h-screen bg-hero-pattern bg-cover bg-no-repeat bg-fixed bg-center relative z-0 bg-primary`}
+                    className={`min-h-screen bg-hero-pattern bg-cover bg-repeat-y bg-fixed bg-center relative z-0 bg-primary h-svh flex flex-col`}
                 >
                     <Navbar />
                     <div
                         className={
-                            'grid px-16 py-8 gap-2 max-w-screen-xl m-auto backdrop-blur-xl'
+                            'grid px-16 py-8 gap-2 max-w-screen-xl m-auto backdrop-blur-md flex-grow w-full'
                         }
                     >
                         <Outlet />
