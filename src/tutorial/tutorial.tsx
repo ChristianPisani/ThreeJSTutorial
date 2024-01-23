@@ -1,4 +1,4 @@
-﻿import { styles } from '../../styles.ts'
+﻿import { styles } from '../styles.ts'
 import { ExportingModels } from './models-tutorial.tsx'
 
 export const Tutorial = () => {
