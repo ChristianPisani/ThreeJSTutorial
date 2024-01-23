@@ -2,10 +2,11 @@ import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader.tsx'
 import { Group, Mesh } from 'three'
-import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
+import { Environment, OrbitControls } from '@react-three/drei'
+import { useGLTFWithShadows } from '../hooks/useGLTFWithShadows.tsx'
 
 const CardModel = () => {
-    const { scene } = useGLTF('/Card.gltf')
+    const { scene } = useGLTFWithShadows('/Card.gltf')
 
     const body = scene.children.find((c) => c.name === 'Body')! as Group
     const button = scene.children.find((c) => c.name === 'Button')! as Mesh
