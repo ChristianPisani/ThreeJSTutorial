@@ -1,13 +1,14 @@
 ﻿import { TaskTemplate } from './components/task-template.tsx'
-import { Task1Canvas } from './pages/task1.tsx'
-import { Task2Canvas } from './pages/task2.tsx'
-import { Task3Canvas } from './pages/task3.tsx'
-import { Task6Canvas } from './pages/task6.tsx'
-import { Task5Canvas } from './pages/task5MakeItInteractive.tsx'
-import { Task4Canvas } from './pages/task4.tsx'
-import { TaskPointCloud } from './pages/task-point-cloud.tsx'
-import { TaskInstancingCanvas } from './pages/task-instancing.tsx'
-import { TaskPostProcessing } from './pages/task-post-processing.tsx'
+import { BasicRender } from './tasks/task-basic-render.tsx'
+import { TaskBasicLighting } from './tasks/task-basic-lighting.tsx'
+import { TaskPointCloud } from './tasks/task-point-cloud.tsx'
+import { TaskInstancingCanvas } from './tasks/task-instancing.tsx'
+import { TaskPostProcessing } from './tasks/task-post-processing.tsx'
+import { TaskAnimationTransforms } from './tasks/task-animation-transforms.tsx'
+import { TaskAddModel } from './tasks/task-add-model.tsx'
+import { TaskShadows } from './tasks/task-shadows.tsx'
+import { TaskCreateMaterials } from './tasks/task-create-materials.tsx'
+import { TaskMakeItInteractive } from './tasks/task-make-it-interactive.tsx'
 
 export const tasks = [
     <TaskTemplate
@@ -45,7 +46,7 @@ export const tasks = [
             </p>,
             'Try different shapes, not just the Box',
         ]}
-        taskCanvas={<Task1Canvas />}
+        taskCanvas={<BasicRender />}
     />,
     <TaskTemplate
         title={'Lighting'}
@@ -75,7 +76,7 @@ export const tasks = [
         tips={[
             'The meshPhongMaterial and the meshPhysicalMaterial work with lights',
         ]}
-        taskCanvas={<Task2Canvas />}
+        taskCanvas={<TaskBasicLighting />}
     />,
     <TaskTemplate
         title={'Animate it!'}
@@ -112,7 +113,7 @@ export const tasks = [
                 group together related items. You can apply transforms to this
             </span>,
         ]}
-        taskCanvas={<Task3Canvas />}
+        taskCanvas={<TaskAnimationTransforms />}
     />,
     <TaskTemplate
         title={'Add a model!'}
@@ -148,7 +149,7 @@ export const tasks = [
                 into your canvas
             </p>,
         ]}
-        taskCanvas={<Task4Canvas />}
+        taskCanvas={<TaskAddModel />}
     />,
     <TaskTemplate
         title={'Point cloud!'}
@@ -261,47 +262,106 @@ export const tasks = [
         taskCanvas={<TaskPostProcessing />}
     />,
     <TaskTemplate
-        title={'Make it interactive!'}
+        title={'Add shadows!'}
         description={
             <>
-                <p>Now we need to make it interactive.</p>
-                <p>Try to make the logo change color and size when hovered.</p>
                 <p>
-                    You're going to need to dig a bit in the gltf object for
-                    this one
+                    There is a model and a spotlight in this scene, but the
+                    lighting looks pretty flat.
+                </p>
+                <p>
+                    We are missing shadows. To get shadows you need to enable it
+                    on the Canvas element, and add castShadow and receiveShadow
+                    attributes to every light and object
+                </p>
+                <p>
+                    You can also play around with the bounds and resolution of
+                    the shadow map to see how it affects lighting
+                </p>
+                <p>
+                    Another thing that is really important for getting
+                    good-looking lighting is an environment map, or HDRI. This
+                    is an image texture that is reflected on the surfaces. Try
+                    to add an Environment from drei and see how it affects
+                    lighting. Try different maps to see how it looks. Enable and
+                    disable background to see only the reflections or the map
+                    itself.
+                </p>
+                <p>
+                    There is a version of the card with materials already made
+                    in the scene, so that you can see how the environment
+                    lighting affects it.
                 </p>
             </>
         }
         canvasDescription={''}
-        canvasTitle={'Do something to me!'}
+        canvasTitle={'Throw some shade'}
         tips={[
-            'Look into the scene object in the gltf',
-            'You can store a reference to a material',
-            'Take a look at pointer events in three fiber',
-            'Store the original color of the object material',
+            'Enable castShadow and receiveShadow on every mesh',
+            'Enable castShadow on lights',
+            'Enable shadows on the Canvas element',
         ]}
-        taskCanvas={<Task5Canvas />}
+        taskCanvas={<TaskShadows />}
+    />,
+    <TaskTemplate
+        title={'Add materials! Make it yours'}
+        description={
+            <>
+                <p>
+                    Now that there is lighting in the scene, you can try to
+                    customize the card. Change the materials of the different
+                    parts of the card. Try to add some post-processing effects
+                    to make it pop! Emission and bloom could be a cool combo if
+                    used sparsely.
+                </p>
+            </>
+        }
+        canvasDescription={''}
+        canvasTitle={'Paint it'}
+        tips={[
+            'Tweak the color, roughness, metalness and emissive properties to change the look',
+            'Try different environments',
+            'Add more lights to highlight the card',
+        ]}
+        taskCanvas={<TaskCreateMaterials />}
     />,
     <TaskTemplate
         title={'Make it interactive!'}
         description={
             <>
                 <p>Now we need to make it interactive.</p>
-                <p>Try to make the logo change color and size when hovered.</p>
                 <p>
-                    You're going to need to dig a bit in the gltf object for
-                    this one
+                    There are multiple pointer events that can be used in three
+                    fiber for adding interactivity. Use the onPointerOver,
+                    onPointerOut and onPointerDown events to react to input.
+                </p>
+                <p>
+                    Try to add some functionality to the card. For example try
+                    to change the size and material of the button when hovering
+                    it. Give it a click effect. Move it, make use of the 3D
+                    space!
+                </p>
+                <p>
+                    From here you can pretty much do anything you want! Be
+                    creative. Make something cool happen when you press the
+                    card. Add different models. Create your own model!{' '}
+                    <span
+                        className={
+                            'animate-ping ml-16 text-xl text-pink-400 absolute'
+                        }
+                    >
+                        GO CRAZY
+                    </span>
                 </p>
             </>
         }
         canvasDescription={''}
-        canvasTitle={'Do something to me!'}
+        canvasTitle={'Be creative!'}
         tips={[
-            'Look into the scene object in the gltf',
-            'You can store a reference to a material',
-            'Take a look at pointer events in three fiber',
-            'Store the original color of the object material',
+            'Use the useFrame hook',
+            'Add some lerps for animating smoothly',
+            'Take a look at the different pointer events in three fiber',
         ]}
-        taskCanvas={<Task6Canvas />}
+        taskCanvas={<TaskMakeItInteractive />}
     />,
 ]

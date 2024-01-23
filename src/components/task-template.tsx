@@ -24,7 +24,9 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
 
     return (
         <div className={'flex flex-col gap-12'}>
-            <div className={`grid grid-cols-[20rem,1fr] gap-12`}>
+            <div
+                className={`flex flex-col sm:grid sm:grid-cols-[20rem,1fr] gap-12`}
+            >
                 <div className={'col-span-2 flex flex-col gap-8'}>
                     <h1
                         className={`${styles.heroHeadText} text-white font-bold`}
@@ -44,7 +46,11 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
                     </ul>
                 </div>
                 <div className={'col-span-1 flex flex-col gap-4'}>
-                    <div className={'flex gap-8 items-center justify-between'}>
+                    <div
+                        className={
+                            'flex flex-col sm:flex-row gap-8 items-center justify-between'
+                        }
+                    >
                         <p className={'font-bold text-2xl'}>{canvasTitle}</p>{' '}
                         <button
                             className={

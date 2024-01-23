@@ -21,7 +21,7 @@ const LogoModel = () => {
     )
 }
 
-export const Task4Canvas = () => {
+export const TaskAddModel = () => {
     return (
         <Canvas
             camera={{

@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader.tsx'
 import { Box, PerspectiveCamera } from '@react-three/drei'
 
-export const Task1Canvas = () => {
+export const BasicRender = () => {
     return (
         <Canvas>
             <Suspense fallback={<Loader />}>

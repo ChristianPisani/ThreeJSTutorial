@@ -1,7 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import { Navbar } from './components'
-import { Tutorial } from './pages/tutorial/tutorial.tsx'
+import { Tutorial } from './tutorial/tutorial.tsx'
 import { tasks } from './tasks.tsx'
+import { solutions } from './solutions.tsx'
 
 function App() {
     const router = createBrowserRouter([
@@ -29,6 +30,16 @@ function App() {
                 ...tasks.map((task, index) => ({
                     path: `task${index + 1}`,
                     element: task,
+                })),
+
+                ...solutions.map((solution, index) => ({
+                    path: `solution${index + 1}`,
+                    element: (
+                        <>
+                            <h1>Solution {index + 1}</h1>
+                            <div className={'h-96'}>{solution.element}</div>
+                        </>
+                    ),
                 })),
             ],
         },

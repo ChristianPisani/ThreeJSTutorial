@@ -33,7 +33,7 @@ const BoxModel = () => {
     )
 }
 
-export const Task3Canvas = () => {
+export const TaskAnimationTransforms = () => {
     return (
         <Canvas
             camera={{

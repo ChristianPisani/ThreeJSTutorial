@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader.tsx'
 import { Box } from '@react-three/drei'
 
-export const Task2Canvas = () => {
+export const TaskBasicLighting = () => {
     return (
         <Canvas
             camera={{

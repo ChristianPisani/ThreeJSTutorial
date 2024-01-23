@@ -1,18 +1,16 @@
-import { Suspense, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Suspense } from 'react'
+import { Canvas } from '@react-three/fiber'
 import Loader from '../components/Loader.tsx'
-import { Group, Mesh, MeshPhysicalMaterial, Vector3 } from 'three'
-import { Environment, OrbitControls, useGLTF } from '@react-three/drei'
+import { Group, Mesh, MeshPhysicalMaterial } from 'three'
+import { Environment, OrbitControls } from '@react-three/drei'
 import { Bloom, EffectComposer, Vignette } from '@react-three/postprocessing'
+import { useGLTFWithShadows } from '../hooks/useGLTFWithShadows.tsx'
 
 const LogoModel = () => {
-    const ref = useRef<Group>(null!)
-    const buyButtonMaterialRef = useRef<MeshPhysicalMaterial>(null!)
-    const buyButtonRef = useRef<Mesh>(null!)
-    const buyTextRef = useRef<Mesh>(null!)
-    const buttonHovered = useRef<boolean>(false)
+    // Make the card interactive!
+    // Use the card from the previous task if you want to make it your own, or continue on the premade one here
 
-    const { scene } = useGLTF('/Card.gltf')
+    const { scene } = useGLTFWithShadows('/Card.gltf')
 
     const body = scene.children.find((c) => c.name === 'Body')! as Group
     const button = scene.children.find((c) => c.name === 'Button')! as Mesh
@@ -21,53 +19,13 @@ const LogoModel = () => {
         (c) => c.name === 'Description'
     ) as Mesh
     const title = scene.children.find((c) => c.name === 'Title') as Mesh
-
-    useFrame(({ clock }) => {
-        const elapsedTime = clock.getElapsedTime()
-
-        ref.current.rotation.z = Math.sin(elapsedTime) / 4 + Math.PI / 16
-
-        if (buttonHovered.current) {
-            const current = new Vector3(
-                buyButtonMaterialRef.current.emissiveIntensity,
-                buyButtonRef.current.position.y,
-                buyTextRef.current.position.y
-            )
-            const target = new Vector3(1.2, 0.2, 0.2)
-
-            const lerped = current.lerp(target, 0.05)
-
-            buyButtonMaterialRef.current.emissiveIntensity = lerped.x
-            buyButtonRef.current.position.y = lerped.y
-            buyTextRef.current.position.y = lerped.z
-        } else {
-            const current = new Vector3(
-                buyButtonMaterialRef.current.emissiveIntensity,
-                buyButtonRef.current.position.y,
-                buyTextRef.current.position.y
-            )
-            const target = new Vector3(0, 0, 0)
-
-            const lerped = current.lerp(target, 0.1)
-
-            buyButtonMaterialRef.current.emissiveIntensity = lerped.x
-            buyButtonRef.current.position.y = lerped.y
-            buyTextRef.current.position.y = lerped.z
-        }
-    })
+    const cardTop = body.children[0] as Mesh
+    const cardBottom = body.children[1] as Mesh
 
     return (
         <>
-            <group
-                ref={ref}
-                position={[0, 0, 0]}
-                rotation={[Math.PI / 2, 0, 0]}
-            >
-                <mesh
-                    geometry={(body.children[0] as Mesh).geometry}
-                    castShadow
-                    receiveShadow
-                >
+            <group position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+                <mesh geometry={cardTop.geometry} castShadow receiveShadow>
                     {/* Image texture, don't change this */}
                     <meshPhysicalMaterial
                         {...((body.children[0] as Mesh)
@@ -75,12 +33,7 @@ const LogoModel = () => {
                     />
                 </mesh>
 
-                {/* Card body */}
-                <mesh
-                    geometry={(body.children[1] as Mesh).geometry}
-                    castShadow
-                    receiveShadow
-                >
+                <mesh geometry={cardBottom.geometry} castShadow receiveShadow>
                     <meshPhysicalMaterial
                         color={'#6f429a'}
                         metalness={0.6}
@@ -95,35 +48,14 @@ const LogoModel = () => {
                         roughness={0.2}
                     />
                 </mesh>
-                <mesh
-                    ref={buyButtonRef}
-                    geometry={button.geometry}
-                    castShadow
-                    receiveShadow
-                    onPointerOver={() => {
-                        buttonHovered.current = true
-                    }}
-                    onPointerOut={() => {
-                        buttonHovered.current = false
-                    }}
-                    onPointerDown={() => {
-                        buyButtonRef.current.position.y = 0
-                        buyTextRef.current.position.y = 0
-                    }}
-                >
+                <mesh geometry={button.geometry} castShadow receiveShadow>
                     <meshPhysicalMaterial
-                        ref={buyButtonMaterialRef}
                         color={'hotpink'}
                         metalness={0.75}
                         roughness={0.1}
                         emissive={'hotpink'}
                     />
-                    <mesh
-                        ref={buyTextRef}
-                        geometry={buyText.geometry}
-                        castShadow
-                        receiveShadow
-                    >
+                    <mesh geometry={buyText.geometry} castShadow receiveShadow>
                         <meshPhysicalMaterial
                             color={'gold'}
                             emissive={'gold'}
@@ -149,7 +81,7 @@ const LogoModel = () => {
 
 const shadowCameraBounds = 0.5
 
-export const Task6Canvas = () => {
+export const TaskMakeItInteractive = () => {
     return (
         <Canvas
             shadows={'soft'}

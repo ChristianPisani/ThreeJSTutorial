@@ -9,26 +9,11 @@ import {
     Mesh,
     MeshPhysicalMaterial,
     Object3D,
-    Vector2,
     Vector3,
 } from 'three'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
-import {
-    Bloom,
-    EffectComposer,
-    Glitch,
-    GodRays,
-    Noise,
-    Vignette,
-} from '@react-three/postprocessing'
-import {
-    BlendFunction,
-    GlitchMode,
-    KernelSize,
-    Resolution,
-} from 'postprocessing'
 
 const LogoModel = () => {
     const ref = useRef<Group>(null!)
@@ -105,34 +90,6 @@ const LogoModel = () => {
                     args={[geometry, material, numberOfParticles]}
                 ></instancedMesh>
             </group>
-            <EffectComposer>
-                <GodRays
-                    sun={instanceRef}
-                    blendFunction={BlendFunction.SCREEN}
-                    samples={100}
-                    density={0.99}
-                    decay={0.9}
-                    weight={0.75}
-                    exposure={0.1}
-                    clampMax={1}
-                    width={Resolution.AUTO_SIZE}
-                    height={Resolution.AUTO_SIZE}
-                    kernelSize={KernelSize.LARGE}
-                />
-                <Noise opacity={0.025} />
-                <Vignette darkness={0.75} />
-                <Bloom
-                    luminanceThreshold={0}
-                    luminanceSmoothing={0.9}
-                    height={200}
-                    opacity={1}
-                />
-                <Glitch
-                    mode={GlitchMode.SPORADIC}
-                    delay={new Vector2(5, 10)}
-                    duration={new Vector2(0.5, 0.75)}
-                />
-            </EffectComposer>
         </>
     )
 }
