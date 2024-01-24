@@ -10,7 +10,7 @@ function App() {
             path: '/',
             element: (
                 <div
-                    className={`min-h-screen bg-hero-pattern bg-cover bg-repeat-y bg-fixed bg-center relative z-0 bg-primary h-svh flex flex-col`}
+                    className={`min-h-svh bg-hero-pattern bg-cover bg-repeat-y bg-fixed bg-center relative z-0 bg-primary flex flex-col`}
                 >
                     <Navbar />
                     <div
