@@ -36,7 +36,7 @@ export const NavList: FC<NavListProps> = ({ items, title }) => {
         <div>
             <button
                 onClick={() => setOpen(!open)}
-                className={'hover:font-bold z-20'}
+                className={'hover:underline z-20'}
             >
                 {title}
             </button>
