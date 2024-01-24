@@ -1,14 +1,14 @@
 ﻿import { FC, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-type NavItemProps = { title: string; href: string }
+type NavItemProps = { title: string; href: string; onClick: void }
 
 type NavListProps = {
     title: string
     items: NavItemProps[]
 }
 
-const NavItem: FC<NavItemProps> = ({ title, href }) => {
+const NavItem: FC<NavItemProps> = ({ title, href, onClick }) => {
     const [active, setActive] = useState(false)
 
     const location = useLocation()
@@ -24,7 +24,9 @@ const NavItem: FC<NavItemProps> = ({ title, href }) => {
                 active ? 'text-white' : 'text-secondary'
             } hover:text-white text-[18px] font-medium cursor-pointer`}
         >
-            <Link to={`${href}`}>{title}</Link>
+            <Link to={`${href}`} onClick={onClick}>
+                {title}
+            </Link>
         </li>
     )
 }
@@ -48,7 +50,11 @@ export const NavList: FC<NavListProps> = ({ items, title }) => {
                         }
                     >
                         {items.map((item, index) => (
-                            <NavItem key={index} {...item} />
+                            <NavItem
+                                onClick={() => setOpen(false)}
+                                key={index}
+                                {...item}
+                            />
                         ))}
                     </ul>
                     <div
