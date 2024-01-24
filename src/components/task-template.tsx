@@ -66,7 +66,7 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
                         ref={canvasContainer}
                         key={index}
                         className={
-                            'border-fuchsia-200 border-2 bg-opacity-30 bg-indigo-950 rounded-2xl h-96 relative'
+                            'border-fuchsia-200 border-2 bg-opacity-30 bg-indigo-950 h-96 relative'
                         }
                     >
                         <Stats

@@ -15,7 +15,7 @@ const LogoModel = () => {
 
     const positions: Vector3[] = []
 
-    const numberOfParticles = 1000
+    const numberOfParticles = 10000
 
     const position = new Vector3(0, 0, 0)
     for (let i = 0; i < numberOfParticles; i++) {
