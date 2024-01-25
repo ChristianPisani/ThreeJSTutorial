@@ -1,13 +1,7 @@
 import { CanvasShowCase } from '../components/CanvasShowCase.tsx'
 import { Canvas } from '@react-three/fiber'
-import {
-    Box,
-    Environment,
-    Html,
-    OrbitControls,
-    Sphere,
-} from '@react-three/drei'
-import { MeshPhysicalMaterial, MeshStandardMaterial } from 'three'
+import { Box, Environment, Html, OrbitControls } from '@react-three/drei'
+import { MeshPhysicalMaterial } from 'three'
 
 export const LightingTutorial = () => {
     return (

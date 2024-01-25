@@ -6,7 +6,6 @@
 } from './tutorial/basics-tutorial.tsx'
 import { ReactNode } from 'react'
 import {
-    BasicLightExample,
     LightingTutorial,
     AmbientLightTutorial,
     PointLightTutorial,

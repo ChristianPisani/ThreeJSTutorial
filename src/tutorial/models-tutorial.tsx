@@ -1,7 +1,6 @@
-﻿import { useRef } from 'react'
-import { Group, Mesh } from 'three'
+﻿import { Mesh } from 'three'
 import { useGLTF } from '@react-three/drei'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas } from '@react-three/fiber'
 import { CanvasShowCase } from '../components/CanvasShowCase.tsx'
 
 export const ExportingModels = () => {
