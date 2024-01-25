@@ -3,6 +3,7 @@ import { Navbar } from './components'
 import { Tutorial } from './tutorial/tutorial.tsx'
 import { tasks } from './tasks.tsx'
 import { solutions } from './solutions.tsx'
+import { tutorialPages } from './tutorial-pages.tsx'
 
 function App() {
     const router = createBrowserRouter([
@@ -25,7 +26,15 @@ function App() {
             children: [
                 {
                     path: '',
-                    element: <Tutorial />,
+                    children: [
+                        ...tutorialPages
+                            .flatMap((page) => [page, ...(page.children ?? [])])
+                            .map((page) => ({
+                                path: `tutorial/${page.title}`,
+                                element: <Tutorial page={page} />,
+                                index: page.title === 'Three JS and Fiber',
+                            })),
+                    ],
                 },
                 ...tasks.map((task, index) => ({
                     path: `task${index + 1}`,

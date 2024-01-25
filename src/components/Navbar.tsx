@@ -1,6 +1,7 @@
 import { navLinks } from '../constants'
 import { NavList } from './NavList.tsx'
 import { solutions } from '../solutions.tsx'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
     return (
@@ -10,6 +11,12 @@ const Navbar = () => {
                     'px-16 w-full flex gap-16 items-center mx-auto max-w-screen-xl'
                 }
             >
+                <Link
+                    to={'/tutorial/Three JS and Fiber'}
+                    className={'hover:underline'}
+                >
+                    Tutorial
+                </Link>
                 <NavList title={'Tasks'} items={navLinks} />
                 <NavList
                     title={'Solutions'}

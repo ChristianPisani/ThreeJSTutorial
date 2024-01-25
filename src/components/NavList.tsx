@@ -1,14 +1,15 @@
 ﻿import { FC, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-type NavItemProps = { title: string; href: string; onClick: void }
+type NavItemProps = { title: string; href: string }
+type NavItemComponentProps = NavItemProps & { onClick: () => void }
 
 type NavListProps = {
     title: string
     items: NavItemProps[]
 }
 
-const NavItem: FC<NavItemProps> = ({ title, href, onClick }) => {
+const NavItem: FC<NavItemComponentProps> = ({ title, href, onClick }) => {
     const [active, setActive] = useState(false)
 
     const location = useLocation()
@@ -51,9 +52,9 @@ export const NavList: FC<NavListProps> = ({ items, title }) => {
                     >
                         {items.map((item, index) => (
                             <NavItem
-                                onClick={() => setOpen(false)}
-                                key={index}
                                 {...item}
+                                key={index}
+                                onClick={() => setOpen(false)}
                             />
                         ))}
                     </ul>

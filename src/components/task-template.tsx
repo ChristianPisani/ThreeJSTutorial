@@ -1,6 +1,6 @@
 ﻿import { styles } from '../styles.ts'
-import { FC, ReactNode, useRef, useState } from 'react'
-import { Stats } from '@react-three/drei'
+import { FC, ReactNode, useState } from 'react'
+import { CanvasShowCase } from './CanvasShowCase.tsx'
 
 type TaskTemplateType = {
     title: string
@@ -19,9 +19,6 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
     tips,
     taskCanvas,
 }) => {
-    const [index, setIndex] = useState(0)
-    const canvasContainer = useRef<HTMLDivElement>(null!)
-
     return (
         <div className={'flex flex-col gap-12'}>
             <div
@@ -46,35 +43,12 @@ export const TaskTemplate: FC<TaskTemplateType> = ({
                     </ul>
                 </div>
                 <div className={'col-span-1 flex flex-col gap-4'}>
-                    <div
-                        className={
-                            'flex flex-col sm:flex-row gap-8 items-center justify-between'
-                        }
+                    <CanvasShowCase
+                        title={canvasTitle}
+                        description={canvasDescription}
                     >
-                        <p className={'font-bold text-2xl'}>{canvasTitle}</p>{' '}
-                        <button
-                            className={
-                                'bg-indigo-600 px-5 py-3 rounded text-indigo-100'
-                            }
-                            onClick={() => setIndex(index + 1)}
-                        >
-                            Reset view
-                        </button>
-                    </div>
-                    <p>{canvasDescription}</p>
-                    <div
-                        ref={canvasContainer}
-                        key={index}
-                        className={
-                            'border-fuchsia-200 border-2 bg-opacity-30 bg-indigo-950 h-96 relative'
-                        }
-                    >
-                        <Stats
-                            parent={canvasContainer}
-                            className={'absoluteImportant ml-2 mt-3'}
-                        />
                         {taskCanvas}
-                    </div>
+                    </CanvasShowCase>
                 </div>
             </div>
         </div>
