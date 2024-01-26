@@ -3,6 +3,7 @@
     BasicScene,
     DreiTutorial,
     ThreeJsAndFiber,
+    TransformsTutorial,
 } from './tutorial/basics-tutorial.tsx'
 import { ReactNode } from 'react'
 import {
@@ -42,6 +43,10 @@ export const tutorialPages: TutorialPage[] = [
             {
                 title: 'Basic box example',
                 element: <BasicScene />,
+            },
+            {
+                title: 'Transforms',
+                element: <TransformsTutorial />,
             },
         ],
     },

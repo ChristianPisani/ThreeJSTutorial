@@ -1,14 +1,17 @@
-﻿import { Canvas } from '@react-three/fiber'
+﻿import { Canvas, useFrame } from '@react-three/fiber'
 import { CanvasShowCase } from '../components/CanvasShowCase.tsx'
 import {
     Box,
     Environment,
+    GizmoHelper,
     Html,
     OrbitControls,
     Sparkles,
     Sphere,
+    TransformControls,
 } from '@react-three/drei'
-import { MeshPhysicalMaterial } from 'three'
+import { Mesh, MeshPhysicalMaterial } from 'three'
+import { useRef } from 'react'
 
 export const ThreeJsAndFiber = () => {
     return (
@@ -229,6 +232,115 @@ export const DreiTutorial = () => {
                         </h1>
                     </Html>
                     <OrbitControls />
+                </Canvas>
+            </CanvasShowCase>
+        </div>
+    )
+}
+
+const PosBox = () => {
+    const posRef = useRef<Mesh>(null!)
+
+    useFrame(({ clock }) => {
+        const elapsedTime = clock.getElapsedTime()
+
+        if (posRef.current) posRef.current.position.y = Math.sin(elapsedTime)
+    })
+
+    return (
+        <mesh ref={posRef}>
+            <boxGeometry />
+        </mesh>
+    )
+}
+const ScaleBox = () => {
+    const ref = useRef<Mesh>(null!)
+
+    useFrame(({ clock }) => {
+        const elapsedTime = clock.getElapsedTime()
+
+        if (ref.current) ref.current.scale.y = Math.sin(elapsedTime) + 2
+    })
+
+    return (
+        <mesh ref={ref}>
+            <boxGeometry />
+        </mesh>
+    )
+}
+
+const RotationBox = () => {
+    const ref = useRef<Mesh>(null!)
+
+    useFrame(({ clock }) => {
+        const elapsedTime = clock.getElapsedTime()
+
+        if (ref.current) ref.current.rotation.x = Math.sin(elapsedTime)
+    })
+
+    return (
+        <mesh ref={ref}>
+            <boxGeometry />
+        </mesh>
+    )
+}
+
+export const TransformsTutorial = () => {
+    return (
+        <div className={'prose prose-invert'}>
+            <h1>Transforms</h1>
+            <p>
+                To move objects around in the scene you need to use transforms.
+                Transforms are the position, rotation and scale of an object.
+            </p>
+            <p>
+                When working with transforms in the react context, they will be
+                in an array with [x,y,z] being the units. Y is the up direction,
+                so changing the Y position will make the object go up and down.
+            </p>
+            <p>
+                Rotation will make the around an axis. All rotations are done in
+                radians, so use divisions of PI. F.ex 90 degrees would be
+                Math.PI / 2
+            </p>
+            <CanvasShowCase
+                title={'Position'}
+                description={'Changing the y position'}
+            >
+                <Canvas>
+                    <PosBox />
+                </Canvas>
+            </CanvasShowCase>
+            <CanvasShowCase
+                title={'Scale'}
+                description={'Changing the y scale'}
+            >
+                <Canvas>
+                    <ScaleBox />
+                </Canvas>
+            </CanvasShowCase>
+            <CanvasShowCase
+                title={'Rotation'}
+                description={'Changing the x rotation'}
+            >
+                <Canvas camera={{ position: [2, 1, 2] }}>
+                    <RotationBox />
+                </Canvas>
+            </CanvasShowCase>
+
+            <p>
+                In the example under you can control the transforms of the
+                object using the arrows.{' '}
+            </p>
+            <CanvasShowCase title={'Transform controls'}>
+                <Canvas camera={{ position: [3, 1, 3] }}>
+                    <TransformControls>
+                        <mesh>
+                            <boxGeometry />
+                            <meshPhysicalMaterial color={'white'} />
+                        </mesh>
+                    </TransformControls>
+                    <directionalLight position={[3, 5, 4]} intensity={2} />
                 </Canvas>
             </CanvasShowCase>
         </div>
