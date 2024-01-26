@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
+import {createBrowserRouter, Outlet, redirect, RouterProvider} from 'react-router-dom'
 import { Navbar } from './components'
 import { Tutorial } from './tutorial/tutorial.tsx'
 import { tasks } from './tasks.tsx'
@@ -9,6 +9,12 @@ function App() {
     const router = createBrowserRouter([
         {
             path: '/',
+            loader: () => {
+                console.log(window.location.pathname)
+                if (window.location.pathname === "/") window.location.pathname = '/tutorial/Three JS and Fiber'
+                
+                return null
+            },
             element: (
                 <div
                     className={`min-h-svh bg-hero-pattern bg-cover bg-repeat-y bg-fixed bg-center relative z-0 bg-primary flex flex-col`}
@@ -26,6 +32,7 @@ function App() {
             children: [
                 {
                     path: '',
+                    loader: undefined,
                     children: [
                         ...tutorialPages
                             .flatMap((page) => [page, ...(page.children ?? [])])
